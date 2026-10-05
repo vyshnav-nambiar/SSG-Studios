@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSG Studios - Indie Game Dev</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #0c0c0e;
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .mainheader {
+            background-color: #141416;
+            border-bottom: 2px solid #5865f2;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .studiotitle h1 {
+            color: #ffffff;
+            font-size: 20px;
+        }
+        .studiotitle p {
+            font-size: 11px;
+            color: #818cf8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        .nav_links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav_links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .nav_links a:hover, .nav_links a.active-link {
+            color: #ffffff;
+        }
+        .dibba {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .dibbabox {
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #5865f2;
+        }
+        p {
+            margin-bottom: 12px;
+            color: #9ca3af;
+        }
+        .hero_box {
+            background: linear-gradient(135deg, #18181b, #1e1b4b);
+        }
+
+        .sprintbadge {
+            display: inline-block;
+            background-color: rgba(88, 101, 242, 0.2);
+            color: #818cf8;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .game-box {
+            background-color: #202024;
+            border: 1px solid #2f2f35;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .game-box h3 {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .game-tag {
+            font-size: 11px;
+            color: #818cf8;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .roadmap-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .roadmap-card {
+            background-color: #202024;
+            border: 1px solid #2f2f35;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        .roadmap-card.is-active {
+            border-color: #5865f2;
+            background-color: #1a1a3a;
+        }
+
+        .roadmap-card h4 {
+            color: #fff;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .roadmap-card p {
+            font-size: 12px;
+            margin: 0;
+        }
+        .team-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .team-card {
+            background-color: #202024;
+            border: 1px solid #2f2f35;
+            padding: 20px 10px;
+            border-radius: 6px;
+            width: 150px;
+            text-align: center;
+        }
+        .team-emoji {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+        .team-name {
+            font-weight: bold;
+            color: #fff;
+            font-size: 14px;
+        }
+        .team-job {
+            color: #818cf8;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .info-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-box {
+            background-color: #202024;
+            border: 1px solid #2f2f35;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .info-box h4 {
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #9ca3af;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #121214;
+            border: 1px solid #2f2f35;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #5865f2;
+        }
+        textarea {
+            height: 110px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #5865f2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .submit-btn:hover {
+            background-color: #4752c4;
+        }
+        footer {
+            text-align: center;
+            background-color: #141416;
+            padding: 25px;
+            border-top: 1px solid #27272a;
+            font-size: 13px;
+            color: #71717a;
+        }
+        @media (max-width: 768px) {
+            .mainheader {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px;
+            }
+            .nav_links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .games-grid, .roadmap-list, .info-split, .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        #wallpaper-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none; 
+            overflow: hidden;
+        }
+        #wallpaper-background iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .container, header {
+            position: relative;
+        z-index: 1;
+        background-color: rgba(20, 20, 20, 0.85);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="wallpaper-background">
+        <iframe src="background_download.html"></iframe>
+    </div>
+    <header class="mainheader">
+        <div class="studiotitle">
+            <h1>SSG Studios</h1>
+            <p>Indie Game Development</p>
+        </div>
+        <nav class="nav_links">
+            <a href="#games">Games</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#team">Team</a>
+            <a href="#info">Careers</a>
+            <a href="#connect" class="active-link">Connect</a>
+        </nav>
+    </header>
+
+    <div class="dibba">
+        <section class="dibbabox hero_box"> 
+            <span class="sprintbadge">Active Build: Horror Game Sprint</span>
+            <h2>Creating Immersive Virtual Worlds</h2> 
+            <p>We are SSG Studios, an independent dev team building multiplayer/single-playerexperiences on Roblox and custom frameworks.</p>
+        </section>
+
+        <section id="games" class="dibbabox">
+            <h2>Our Games</h2>
+            <div class="games-grid">
+                <div class="game-box">
+                    <span class="game-tag">Pre-Alpha</span>
+                    <h3> Roblox: Dead By Daylight </h3> 
+                    <p> An asymmetrical multiplayer horror game where a Killer hunts down Survivors trying to repair a vehicle and escape. </p>
+                </div>
+                <div class="game-box">
+                    <span class="game-tag">In Development</span>
+                    <h3> Mine and Smash </h3>
+                    <p>A fast-paced sandbox game where players mine raw resources, smash blocks, and build massive empires.</p>
+                </div>
+            </div>
+        </section>
+        <section id="roadmap" class="dibbabox">
+            <h2>Studio Roadmap</h2>
+            <div class="roadmap-list">
+                <div class="roadmap-card">
+                    <p style="color: #818cf8; font-size: 11px; font-weight: bold;">PHASE 1</p>
+                    <h4>Planning</h4>
+                    <p>Core mechanics & UI layouts.</p> 
+                </div>
+                <div class="roadmap-card is-active">
+                    <p style="color: #818cf8; font-size: 11px; font-weight: bold;">PHASE 2 (NOW)</p>
+                    <h4>Coding</h4>
+                    <p>Luau scripts, loops & game logic.</p>
+                </div>
+                <div class="roadmap-card">
+                    <p style="color: #818cf8; font-size: 11px; font-weight: bold;">PHASE 3</p>
+                    <h4>Testing</h4>
+                    <p>Internal QA & bug fixing.</p>
+                </div>
+                <div class="roadmap-card">
+                    <p style="color: #818cf8; font-size: 11px; font-weight: bold;">PHASE 4</p>
+                    <h4>Launch</h4>
+                    <p>Public release on Roblox.</p>
+                </div>
+            </div>
+        </section>
+        <section id="team" class="dibbabox">
+            <h2>Meet the Team</h2>
+            <div class="team-wrap">
+                <div class="team-card">
+                    <div class="team-emoji">🚀</div>
+                    <div class="team-name">Vyshnav</div>
+                    <div class="team-job">Lead Dev</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-emoji">⚔️</div>
+                    <div class="team-name">Aditya</div>
+                    <div class="team-job">Environment</div> 
+                </div>
+                <div class="team-card">
+                    <div class="team-emoji">🎨</div>
+                    <div class="team-name">Atharva</div>
+                    <div class="team-job">UI / UX</div>
+                </div> 
+                <div class="team-card">
+                    <div class="team-emoji">🎵</div>
+                    <div class="team-name">Sanurag</div>
+                    <div class="team-job">Sound / Anim</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-emoji">🎮</div>
+                    <div class="team-name">Prajwal</div>
+                    <div class="team-job">QA & Test</div>
+                </div>
+            </div>
+        </section> 
+
+        <section id="info" class="dibbabox">
+            <h2>Studio Info</h2>
+            <div class="info-split">
+                <div class="info-box">
+                    <h4>Open Roles</h4>
+                    <p>Are you a scripter, builder, or animator? Reach out if you want to join our team sprints.</p>
+                </div>
+                <div class="info-box">
+                    <h4>Press & Media</h4>
+                    <p>Streamers or reviewers looking for early build access or logo assets can contact our team directly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="connect" class="dibbabox">
+            <h2>Connect with Our Team</h2>
+            <p>Got a game idea, playtest feedback, or want to collaborate? Drop us a message below.</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Your Name</label>
+                        <input type="text" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-col">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="name@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Topic</label>
+                        <select>
+                            <option>Game Idea / Pitch</option>
+                            <option>Playtest Feedback</option>
+                            <option>Bug Report</option>
+                            <option>Collaboration</option>
+                        </select>
+                    </div>
+                    <div class="form-col">
+                        <label>Discord Handle (Optional)</label>
+                        <input type="text" placeholder="username#0000">
+                    </div>
+                </div>
+
+                <div class="form-col" style="margin-bottom: 15px;">
+                    <label>Your Message</label>
+                    <textarea placeholder="Tell us your thoughts or ideas..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Email: <strong>ssgstudio.games@gmail.com</strong></p>
+        <p style="margin-top: 5px;">© 2026 SSG Studios. All rights reserved.</p>
+    </footer>
+</body>
+</html>

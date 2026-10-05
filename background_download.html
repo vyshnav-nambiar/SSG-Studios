@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Interactive Live Wallpaper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta+Sans', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background-color: #030712;
+        }
+
+        @keyframes meshDrift1 {
+            0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+            33% { transform: translate(50px, -80px) scale(1.15) rotate(120deg); }
+            66% { transform: translate(-40px, 60px) scale(0.9) rotate(240deg); }
+            100% { transform: translate(0px, 0px) scale(1) rotate(360deg); }
+        }
+
+        @keyframes meshDrift2 {
+            0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+            33% { transform: translate(-70px, 50px) scale(1.2) rotate(-120deg); }
+            66% { transform: translate(60px, -40px) scale(0.85) rotate(-240deg); }
+            100% { transform: translate(0px, 0px) scale(1) rotate(-360deg); }
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.35; }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .wallpaper-scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 30%, #0f172a 0%, #030712 100%);
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .mesh-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.55;
+            mix-blend-mode: screen;
+            will-change: transform;
+        }
+
+        .blob-1 {
+            width: 50vw;
+            height: 50vw;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            top: -15%;
+            left: -10%;
+            animation: meshDrift1 20s infinite ease-in-out;
+        }
+
+        .blob-2 {
+            width: 55vw;
+            height: 55vw;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            bottom: -20%;
+            right: -10%;
+            animation: meshDrift2 25s infinite ease-in-out;
+        }
+
+        .blob-3 {
+            width: 40vw;
+            height: 40vw;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            top: 30%;
+            left: 30%;
+            animation: meshDrift1 18s infinite reverse ease-in-out;
+            opacity: 0.45;
+        }
+
+        .cyber-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 8s infinite ease-in-out;
+            mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+        }
+
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+
+        .content-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .interactive-card {
+            pointer-events: auto;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+                        0 0 40px rgba(99, 102, 241, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .interactive-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 
+                        0 0 60px rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 40%, rgba(3, 7, 18, 0.85) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white select-none">
+
+    <div class="wallpaper-scene" id="scene">
+        
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+        <div class="mesh-blob blob-3"></div>
+
+        <div class="cyber-grid"></div>
+
+        <div class="particle" style="width: 3px; height: 3px; top: 20%; left: 15%; animation-delay: 0s;"></div>
+        <div class="particle" style="width: 2px; height: 2px; top: 75%; left: 25%; animation-delay: 1.2s;"></div>
+        <div class="particle" style="width: 4px; height: 4px; top: 40%; left: 85%; animation-delay: 2.4s;"></div>
+        <div class="particle" style="width: 2px; height: 2px; top: 15%; left: 70%; animation-delay: 0.8s;"></div>
+        <div class="particle" style="width: 3px; height: 3px; top: 85%; left: 80%; animation-delay: 3.1s;"></div>
+        <div class="particle" style="width: 5px; height: 5px; top: 50%; left: 10%; animation-delay: 1.7s; background: #a855f7;"></div>
+        <div class="particle" style="width: 3px; height: 3px; top: 30%; left: 50%; animation-delay: 2.1s; background: #38bdf8;"></div>
+
+        <div class="vignette"></div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 border border-indigo-500/30 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+        <span id="toastText" class="text-sm font-medium">Code snippets copied to clipboard!</span>
+    </div>
+
+    <script>
+        const scene = document.getElementById('scene');
+        const blobs = document.querySelectorAll('.mesh-blob');
+
+        let isMotionPaused = false;
+
+        window.addEventListener('mousemove', (e) => {
+            if (isMotionPaused) return;
+            const x = (e.clientX / window.innerWidth - 0.5) * 30;
+            const y = (e.clientY / window.innerHeight - 0.5) * 30;
+
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 0.4;
+                blob.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+            });
+        });
+
+        function toggleMotion() {
+            isMotionPaused = !isMotionPaused;
+            const btn = document.getElementById('motionBtn');
+            blobs.forEach(blob => {
+                blob.style.animationPlayState = isMotionPaused ? 'paused' : 'running';
+            });
+            btn.textContent = isMotionPaused ? 'Resume Wallpaper Motion' : 'Pause Wallpaper Motion';
+            btn.classList.toggle('bg-indigo-600', !isMotionPaused);
+            btn.classList.toggle('bg-amber-600', isMotionPaused);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
